@@ -1,19 +1,3 @@
-create table buses (
-	id int primary key,
-	origin varchar(255),
-	destination varchar(255),
-	time varchar,
-	unique(origin, destination, time)
-)
-
-create table passengers (
-	id int primary key,
-	origin varchar(255),
-	destination varchar(255),
-	time varchar,
-)
-
--- Query to find buses and their passenger counts
 WITH boarded_passengers AS (
     SELECT 
         p.id AS passenger_id,
@@ -39,6 +23,3 @@ GROUP BY
     b.id
 ORDER BY 
     b.id ASC;
-
-
-

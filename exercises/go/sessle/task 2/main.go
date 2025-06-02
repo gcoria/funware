@@ -18,61 +18,9 @@ import (
 // Returns:
 //   - int: The minimum number of tanks needed (-1 if impossible)
 //   - string: The street layout with tanks placed ('T' for tank)
-func MinimumWaterTanks(street string) (int, string) {
-	// Convert to uppercase for consistency
-	street = strings.ToUpper(street)
 
-	// Check if there are any empty plots to place tanks
-	if !strings.Contains(street, "-") {
-		return -1, ""
-	}
 
-	// Convert the street string to a rune array for modification
-	layout := []rune(street)
-	streetLength := len(street)
-	tankCount := 0
-
-	// Process each position in the street
-	for i := 0; i < streetLength; i++ {
-		// Only process house positions
-		if street[i] == 'H' {
-			// Skip if this house already has a water source
-			// (a tank either to its left or right)
-			if (i > 0 && layout[i-1] == 'T') || (i+1 < streetLength && layout[i+1] == 'T') {
-				continue
-			}
-
-			// Try to place a tank for this house
-			tankPlaced := false
-
-			// First strategy: Place tank to the right of the house if possible
-			// This is optimal as it can potentially serve the next house too
-			if i+1 < streetLength && street[i+1] == '-' {
-				layout[i+1] = 'T'
-				tankCount++
-				tankPlaced = true
-			}
-
-			// Second strategy: If can't place to the right, try placing to the left
-			if !tankPlaced && i > 0 && street[i-1] == '-' {
-				layout[i-1] = 'T'
-				tankCount++
-				tankPlaced = true
-			}
-
-			// If no tank could be placed for this house, it's impossible to solve
-			if !tankPlaced {
-				return -1, ""
-			}
-		}
-	}
-
-	return tankCount, string(layout)
-}
-
-// Solution calculates the minimum number of water tanks needed
-// to provide water to all houses in a street.
-func Solution(S string) int {
+func MinimumWaterTanks(S string) int {
 	if notPossibleSolution(S) {
 		return -1
 	}
@@ -98,7 +46,6 @@ func Solution(S string) int {
 				continue
 			}
 
-			// If we can't place a tank for a house, it's impossible
 			return -1
 		}
 	}
