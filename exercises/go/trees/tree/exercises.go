@@ -22,6 +22,7 @@ func PrintTestTree() {
 	fmt.Println(ClosestValue(tree, 4))
 	fmt.Println(ClosestValue(tree, 6))
 	fmt.Println(ClosestValue(tree, 8))
+	fmt.Println(SumAllBranches(tree))
 }
 
 func ClosestValue(tree *TreeNode, value int) int {
@@ -41,4 +42,26 @@ func ClosestValue(tree *TreeNode, value int) int {
 		return ClosestValue(tree.Right, value)
 	}
 	return closest
+}
+
+func SumAllBranches(tree *TreeNode) []int {
+	result := []int{}
+	sum := 0
+	result = append(result, SumBranch(tree, sum, &result)...)
+	return result
+}
+
+func SumBranch(t *TreeNode, sum int, result *[]int) []int {
+	if t == nil {
+		return nil
+	}
+	partialSum := sum + t.Value
+
+	if t.Left == nil && t.Right == nil {
+		*result = append(*result, partialSum)
+	}
+	SumBranch(t.Left, partialSum, result)
+	SumBranch(t.Right, partialSum, result)
+
+	return *result
 }
